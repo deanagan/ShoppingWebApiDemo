@@ -63,7 +63,7 @@ namespace Test.Controller
 
             var response = controller.GetProducts("PROD_999") as ObjectResult;
 
-            response.Should().BeNull();
+            response.Should().NotBeNull();
             response.StatusCode.Should().Be(StatusCodes.Status404NotFound);
         }
     }
