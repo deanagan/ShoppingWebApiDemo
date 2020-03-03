@@ -53,5 +53,18 @@ namespace Test.Controller
             response.StatusCode.Should().Be(StatusCodes.Status200OK);
             response.Value.Should().Be(_productSkuCodes);
         }
+
+        [Fact]
+        public void Error404Returned_WhenGettingNonExistentProduct()
+        {
+            var productService = new Mock<IProductService>();
+            productService.Setup(s => s.GetProduct("PROD_999")).Returns(null as Product);
+            var controller = new ProductController(productService.Object);
+
+            var response = controller.GetProducts("PROD_999") as ObjectResult;
+
+            response.Should().BeNull();
+            response.StatusCode.Should().Be(StatusCodes.Status404NotFound);
+        }
     }
 }
