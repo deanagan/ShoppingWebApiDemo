@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Api.Models;
 
-namespace Api.Services
+namespace Api.Interfaces
 {
     public interface IProductService
     {
