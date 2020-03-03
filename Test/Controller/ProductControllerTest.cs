@@ -4,6 +4,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 
 using Api.Models;
 using Api.Services;
@@ -14,6 +15,11 @@ namespace Test.Controller
     public class ProductControllerTest
     {
         private readonly Product _product = new Product(1.99M, "PROD_001", "Cheap Product");
+
+        private readonly List<string> _productSkuCodes = new List<string> 
+        { "PROD_001", "PROD_002", "PROD_003" };
+
+
         [Fact]
         public void ProductShouldBeReturned_WhenItExists()
         {
@@ -29,6 +35,23 @@ namespace Test.Controller
             response.Should().NotBeNull();
             response.StatusCode.Should().Be(StatusCodes.Status200OK);
             response.Value.Should().Be(_product);
+        }
+
+        [Fact]
+        public void ProductListShouldBeReturned_WhenGetProductCodesInvoked()
+        {
+            // Arrange
+            var productService = new Mock<IProductService>();
+            productService.Setup(s => s.GetProductSkuCodes()).Returns(_productSkuCodes);
+            var controller = new ProductController(productService.Object);
+
+            // Act
+            var response = controller.GetProductSkuCodes() as ObjectResult;
+
+            // Assert
+            response.Should().NotBeNull();
+            response.StatusCode.Should().Be(StatusCodes.Status200OK);
+            response.Value.Should().Be(_productSkuCodes);
         }
     }
 }
