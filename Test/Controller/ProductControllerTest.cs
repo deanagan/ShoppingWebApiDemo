@@ -29,7 +29,7 @@ namespace Test.Controller
             var controller = new ProductController(productService.Object);
 
             // Act
-            var response = controller.GetProducts("PROD_001") as ObjectResult;
+            var response = controller.GetProduct("PROD_001") as ObjectResult;
 
             // Assert
             response.Should().NotBeNull();
@@ -61,7 +61,7 @@ namespace Test.Controller
             productService.Setup(s => s.GetProduct("PROD_999")).Returns(null as Product);
             var controller = new ProductController(productService.Object);
 
-            var response = controller.GetProducts("PROD_999") as ObjectResult;
+            var response = controller.GetProduct("PROD_999") as ObjectResult;
 
             response.Should().NotBeNull();
             response.StatusCode.Should().Be(StatusCodes.Status404NotFound);

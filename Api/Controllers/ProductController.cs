@@ -34,7 +34,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("products/{sku}")]
-        public IActionResult GetProducts(string sku)
+        public IActionResult GetProduct(string sku)
         {
             try
             {
