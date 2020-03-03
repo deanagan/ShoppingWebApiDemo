@@ -2,23 +2,16 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Api.Models;
+using Api.Interfaces;
 
 namespace Api.Services
 {
-    public class ProductService
+    public class ProductService : IProductService
     {
-        // Some static data source
-        private static readonly List<Product> ProductsForSale = new List<Product>
-        {
-            new Product(12.34M, "PRODUCT_001", "Awesome product"),
-            new Product(56.78M, "PRODUCT_002", "Cool product"),
-            new Product(98.76M, "PRODUCT_003", "Fantastic product"),
-        };
-
         private List<Product> products;
-        public ProductService()
+        public ProductService(IProductRepository productRepository)
         {
-            this.products = ProductsForSale;
+            this.products = productRepository.GetProducts();
         }
 
         public List<string> GetProductSkuCodes()
