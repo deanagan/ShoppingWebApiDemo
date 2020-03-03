@@ -39,7 +39,9 @@ namespace Api.Controllers
             try
             {
                 var product = productService.GetProduct(sku);
-                return StatusCode(StatusCodes.Status200OK, product);
+                return StatusCode(
+                    product != null ? StatusCodes.Status200OK : StatusCodes.Status404NotFound, 
+                    product);
             } catch(Exception ex) {
                 return BadRequest(ex.Message);
             }
