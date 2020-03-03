@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 
 using Api.Models;
-using Api.Services;
+using Api.Interfaces;
 using Api.Controllers;
 
 namespace Test.Controller
