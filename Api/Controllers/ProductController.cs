@@ -11,7 +11,7 @@ using Api.Interfaces;
 namespace Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ProductController : ControllerBase
     {
         private readonly IProductService productService;
@@ -21,7 +21,7 @@ namespace Api.Controllers
             this.productService = productService;
         }
 
-        [HttpGet("productskus")]
+        [HttpGet("[action]")]
         public IActionResult GetProductSkuCodes()
         {
             try
@@ -33,14 +33,14 @@ namespace Api.Controllers
             }
         }
 
-        [HttpGet("products/{sku}")]
+        [HttpGet("[action]/{sku}")]
         public IActionResult GetProduct(string sku)
         {
             try
             {
                 var product = productService.GetProduct(sku);
                 return StatusCode(
-                    product != null ? StatusCodes.Status200OK : StatusCodes.Status404NotFound, 
+                    product != null ? StatusCodes.Status200OK : StatusCodes.Status404NotFound,
                     product);
             } catch(Exception ex) {
                 return BadRequest(ex.Message);
