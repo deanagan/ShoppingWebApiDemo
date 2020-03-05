@@ -11,10 +11,10 @@ namespace Api.Models
 
         public int Quantity { get; }
 
-        public CartItem(int productId, int skuCode, int quantity)
+        public CartItem(int productId, int cartId, int quantity)
         {
             this.ProductId = productId;
-            this.CartId = skuCode;
+            this.CartId = cartId;
             this.Quantity = quantity;
         }
     }
