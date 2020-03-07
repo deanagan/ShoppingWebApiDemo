@@ -22,11 +22,11 @@ namespace Api.Controllers
         }
 
         [HttpGet("[action]")]
-        public IActionResult GetProductSkuCodes()
+        public IActionResult GetAllSkuCodes()
         {
             try
             {
-                var productSkuCodes = productService.GetProductSkuCodes();
+                var productSkuCodes = productService.GetAllSkuCodes();
                 return Ok(productSkuCodes);
             } catch(Exception ex) {
                 return BadRequest(ex.Message);

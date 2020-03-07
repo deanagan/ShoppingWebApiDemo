@@ -33,10 +33,10 @@ namespace Test.Controller
         }
 
         [Fact]
-        public void AllCodesReturned_WhenGetProductSkuCodesInvoked()
+        public void AllCodesReturned_WhenGetAllSkuCodesInvoked()
         {
             // Act
-            var skuCodes = _productService.GetProductSkuCodes();
+            var skuCodes = _productService.GetAllSkuCodes();
 
             // Assert
             skuCodes.Count.Should().Be(2);

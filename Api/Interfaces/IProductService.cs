@@ -5,7 +5,7 @@ namespace Api.Interfaces
 {
     public interface IProductService
     {
-        List<string> GetProductSkuCodes();
+        List<string> GetAllSkuCodes();
         Product GetProduct(string skuCode);
     }
 }

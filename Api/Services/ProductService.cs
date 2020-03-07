@@ -14,7 +14,7 @@ namespace Api.Services
             this.products = productRepository.GetProducts();
         }
 
-        public List<string> GetProductSkuCodes()
+        public List<string> GetAllSkuCodes()
         {
             return products.Select(product => product.SkuCode).ToList();
         }

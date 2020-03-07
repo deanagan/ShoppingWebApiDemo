@@ -42,11 +42,11 @@ namespace Test.Controller
         {
             // Arrange
             var productService = new Mock<IProductService>();
-            productService.Setup(s => s.GetProductSkuCodes()).Returns(_productSkuCodes);
+            productService.Setup(s => s.GetAllSkuCodes()).Returns(_productSkuCodes);
             var controller = new ProductController(productService.Object);
 
             // Act
-            var response = controller.GetProductSkuCodes() as ObjectResult;
+            var response = controller.GetAllSkuCodes() as ObjectResult;
 
             // Assert
             response.Should().NotBeNull();
