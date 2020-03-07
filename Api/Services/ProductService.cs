@@ -8,20 +8,20 @@ namespace Api.Services
 {
     public class ProductService : IProductService
     {
-        private List<Product> products;
+        private IProductRepository productRepository;
         public ProductService(IProductRepository productRepository)
         {
-            this.products = productRepository.GetProducts();
+            this.productRepository = productRepository;
         }
 
         public List<string> GetAllSkuCodes()
         {
-            return products.Select(product => product.SkuCode).ToList();
+            return productRepository.GetProducts().Select(product => product.SkuCode).ToList();
         }
 
         public Product GetProduct(string skuCode)
         {
-            return products.Where(product => product.SkuCode == skuCode)
+            return productRepository.GetProducts().Where(product => product.SkuCode == skuCode)
                     .Select(matchingProduct => matchingProduct)
                     .DefaultIfEmpty(null)
                     .First();
