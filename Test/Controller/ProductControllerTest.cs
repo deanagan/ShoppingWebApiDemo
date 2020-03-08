@@ -14,7 +14,10 @@ namespace Test.Controller
 {
     public class ProductControllerTest
     {
-        private readonly Product _product = new Product(1.99M, "PROD_001", "Cheap Product");
+        private readonly Product _product = new Product
+        {
+            Id = 1, Price = 1.99M, SkuCode = "PROD_001", Name = "Cheap product"
+        };
 
         private readonly List<string> _productSkuCodes = new List<string> 
         { "PROD_001", "PROD_002", "PROD_003" };
