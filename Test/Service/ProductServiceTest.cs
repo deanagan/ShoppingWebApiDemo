@@ -16,10 +16,16 @@ namespace Test.Controller
 {
     public class ProductServiceTest
     {
-        private readonly List<Product> _productList = new List<Product>
+        private readonly List<Product> _products = new List<Product>
         {
-            new Product(1.23M, "PROD_001", "Cool 1"),
-            new Product(4.56M, "PROD_002", "Awesome 2")
+            new Product
+            {
+                Id = 1, Price = 1.23M, SkuCode = "PROD_001", Name = "Cool 1"
+            },
+            new Product
+            {
+                Id = 2, Price = 4.56M, SkuCode = "PROD_002", Name = "Awesome 2"
+            },
         };
         private readonly IProductService _productService;
         private readonly Mock<IProductRepository> _productRepositoryMock = new Mock<IProductRepository>();
@@ -27,7 +33,7 @@ namespace Test.Controller
         public ProductServiceTest()
         {
             _productRepositoryMock.Setup(
-                pr => pr.GetProducts()).Returns(_productList);
+                pr => pr.GetProducts()).Returns(_products);
             
             _productService = new ProductService(_productRepositoryMock.Object);
         }
@@ -51,7 +57,7 @@ namespace Test.Controller
             var product = _productService.GetProduct("PROD_001");
 
             // Assert
-            product.Should().Be(_productList.First());
+            product.Should().Be(_products.First());
         }
 
         [Fact]
