@@ -7,10 +7,7 @@ namespace Api.Models
     {
         [Key]
         public int Id { get; }
-
         public List<string> ApplicableProducts { get; set; }
-
         public int DiscountInPercent { get; set; }
-
     }
 }

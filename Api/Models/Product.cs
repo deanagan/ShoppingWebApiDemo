@@ -10,11 +10,5 @@ namespace Api.Models
         public string SkuCode { get; set; }
         public string Name { get; set; }
 
-        public Product(decimal price, string skuCode, string name)
-        {
-            this.Price = price;
-            this.SkuCode = skuCode;
-            this.Name = name;
-        }
     }
 }

@@ -10,6 +10,5 @@ namespace Api.Models
         public List<int> CartItemIds { get; }
 
         public PriceRule PriceRule { get; set; }
-
     }
 }
