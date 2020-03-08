@@ -9,9 +9,18 @@ namespace Api.Data
     {        
         private readonly List<Product> ProductsForSale = new List<Product>
         {
-            new Product(12.34M, "PRODUCT_001", "Awesome product"),
-            new Product(56.78M, "PRODUCT_002", "Cool product"),
-            new Product(98.76M, "PRODUCT_003", "Fantastic product"),
+            new Product()
+            {
+                Id = 1, Price = 12.34M, SkuCode = "PRODUCT_001", Name = "Awesome product"
+            },
+            new Product()
+            {
+                Id = 2, Price = 56.78M, SkuCode = "PRODUCT_002", Name = "Cool product"
+            },
+            new Product()
+            {
+                Id = 3, Price = 98.76M, SkuCode = "PRODUCT_003", Name = "Fantastic product"
+            },
         };
 
         public List<Product> GetProducts()

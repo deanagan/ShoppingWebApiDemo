@@ -14,9 +14,9 @@ namespace Api.Data
             return cartItems;
         }
 
-        public CartItem GetCartItem(string skuCode)
+        public CartItem GetCartItem(int id)
         {
-            return new CartItem(1, 1, 1);
+            return new CartItem{Id = 1, ProductId = 1, Quantity = 1};
         }
 
         public bool RemoveItem(string skuCode)
@@ -26,7 +26,7 @@ namespace Api.Data
 
         public void AddCartItem(CartItem cartItem)
         {
-            
+
         }
     }
 }
