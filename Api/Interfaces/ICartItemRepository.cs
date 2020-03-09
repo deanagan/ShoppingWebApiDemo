@@ -6,7 +6,7 @@ namespace Api.Interfaces
     public interface ICartItemRepository
     {
         List<CartItem> GetCartItems();
-        CartItem GetCartItem(string skuCode);
+        CartItem GetCartItem(int id);
         void AddCartItem(CartItem cartItem);
         bool RemoveItem(string skuCode);
     }
