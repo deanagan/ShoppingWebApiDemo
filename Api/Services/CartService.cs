@@ -19,7 +19,7 @@ namespace Api.Services
         }
         public void AddProduct(string skuCode)
         {
-            CartItem cartItem = new CartItem(1,1,1);
+            CartItem cartItem = new CartItem{Id = 1, ProductId = 1, Quantity = 1};
             cartItemRepository.AddCartItem(cartItem);
         }
 
