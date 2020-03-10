@@ -8,7 +8,6 @@ namespace Api.Services
 {
     public class CartService : ICartService
     {
-        private List<Product> products;
         private IProductRepository productRepository;
         private ICartItemRepository cartItemRepository;
 
@@ -19,8 +18,17 @@ namespace Api.Services
         }
         public void AddProduct(string skuCode)
         {
-            CartItem cartItem = new CartItem{Id = 1, ProductId = 1, Quantity = 1};
-            cartItemRepository.AddCartItem(cartItem);
+            var product = productRepository.GetProducts()
+                                        .Where(product => product.Name == skuCode)                                        
+                                        .DefaultIfEmpty(null)
+                                        .First();
+            if (product != null)
+            {
+                var cartItem = new CartItem { ProductId = product.Id, Quantity = 1 };
+                cartItemRepository.AddCartItem(cartItem);
+            }
+
+            
         }
 
         public void RemoveProduct(string skuCode)
@@ -30,7 +38,7 @@ namespace Api.Services
 
         public List<CartItem> GetCartItems()
         {
-            return new List<CartItem>();
+            return cartItemRepository.GetCartItems();
         }
 
     }

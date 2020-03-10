@@ -24,7 +24,7 @@ namespace Test.Controller
 
         private readonly List<CartItem> _cartItems = new List<CartItem>
         {
-            new CartItem{ Id = 1, ProductId = 1, Quantity = 1},
+            new CartItem{ Id = 1, ProductId = 101, Quantity = 1},
         };
         private ICartService _cartService;
         private readonly IProductRepository _productRepository;
@@ -39,7 +39,7 @@ namespace Test.Controller
 
             _cartItemRepository = Mock.Of<ICartItemRepository>(
                 cir =>
-                    cir.GetCartItem(1) == Mock.Of<CartItem>(ci => ci.Id == 1 && 
+                    cir.GetCartItem(1) == Mock.Of<CartItem>(ci => ci.Id == 101 && 
                                                             ci.ProductId == 1 && 
                                                             ci.Quantity == 1) &&
                     cir.GetCartItems() == _cartItems
@@ -47,17 +47,16 @@ namespace Test.Controller
         }
 
         [Fact]
-        public void AddedProductFound_WhenAddedToCart()
+        public void AddProductInvokesProductRepoGetProducts_WhenAddingToCart()
         {
             // Arrange
             _cartService = new CartService(_productRepository, _cartItemRepository);
-
+            
             // Act
             _cartService.AddProduct("PROD_001");
-            var cartItems = _cartService.GetCartItems();
 
             // Assert
-            cartItems.Should().Contain(cartItem => cartItem.ProductId == 101);
+            Mock.Get(_productRepository).Verify(pr => pr.GetProducts(), Times.Once);
         }
     }
 }
