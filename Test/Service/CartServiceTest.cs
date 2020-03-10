@@ -58,5 +58,18 @@ namespace Test.Controller
             // Assert
             Mock.Get(_productRepository).Verify(pr => pr.GetProducts(), Times.Once);
         }
+
+        [Fact]
+        public void GetCartItemsInvokesCartItemRepo_WhenGettingCartItems()
+        {
+            // Arrange
+            _cartService = new CartService(_productRepository, _cartItemRepository);
+
+            // Act
+            var items = _cartService.GetCartItems();
+
+            // Assert
+            Mock.Get(_cartItemRepository).Verify(pr => pr.GetCartItems(), Times.Once);
+        }
     }
 }
