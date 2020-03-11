@@ -85,5 +85,25 @@ namespace Test.Controller
             Mock.Get(_cartItemRepository).Verify(cir => 
                 cir.AddCartItem(It.Is<CartItem>(ci => ci.ProductId == 102)), Times.Once);
         }
+
+
+        [Fact]
+        public void YieldsCorrectCount_WhenAddMultipleProductsToCart()
+        {
+            // Arrange
+            var cartItems = new List<CartItem>();
+            _cartService = new CartService(_productRepository, _cartItemRepository);
+            Mock.Get(_cartItemRepository).Setup(ci => ci.AddCartItem(It.IsAny<CartItem>()))
+                                         .Callback<CartItem>((ci) => cartItems.Add(ci));
+            Mock.Get(_cartItemRepository).Setup(ci => ci.GetCartItems())
+                                         .Returns(cartItems);
+            
+            // Act
+            _cartService.AddProduct("PROD_001");
+            _cartService.AddProduct("PROD_002");
+
+            // Assert
+            _cartService.GetCartItems().Count.Should().Be(2);
+        }
     }
 }
