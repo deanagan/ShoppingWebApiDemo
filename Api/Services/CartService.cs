@@ -19,7 +19,7 @@ namespace Api.Services
         public void AddProduct(string skuCode)
         {
             var product = productRepository.GetProducts()
-                                        .Where(product => product.Name == skuCode)                                        
+                                        .Where(product => product.SkuCode == skuCode)                                        
                                         .DefaultIfEmpty(null)
                                         .First();
             if (product != null)
