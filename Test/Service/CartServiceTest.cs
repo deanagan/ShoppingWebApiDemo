@@ -105,5 +105,30 @@ namespace Test.Controller
             // Assert
             _cartService.GetCartItems().Count.Should().Be(2);
         }
+
+        [Fact]
+        public void YieldsCorrectCount_WhenAddingMultipleProductsThenRemovingOneFromCart()
+        {
+            // Arrange
+            var dummyCartItems = new List<CartItem>();
+            _cartService = new CartService(_productRepository, _cartItemRepository);
+            Mock.Get(_cartItemRepository).Setup(ci => ci.AddCartItem(It.IsAny<CartItem>()))
+                                         .Callback<CartItem>((ci) => dummyCartItems.Add(ci));
+            Mock.Get(_cartItemRepository).Setup(ci => ci.RemoveCartItem(It.IsAny<CartItem>()))
+                                         .Callback<CartItem>((ci) => dummyCartItems.Remove(ci))
+                                         .Returns(true);
+            Mock.Get(_cartItemRepository).Setup(ci => ci.GetCartItems())
+                                         .Returns(dummyCartItems);
+            
+            // Act
+            _cartService.AddProduct("PROD_001");
+            _cartService.AddProduct("PROD_002");
+            _cartService.RemoveProduct("PROD_001");
+            var cartItems = _cartService.GetCartItems();
+
+            // Assert
+            cartItems.Count.Should().Be(1);
+            cartItems.Should().Contain(ci => ci.ProductId == 102);
+        }
     }
 }
