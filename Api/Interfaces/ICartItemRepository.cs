@@ -8,6 +8,6 @@ namespace Api.Interfaces
         List<CartItem> GetCartItems();
         CartItem GetCartItem(int id);
         void AddCartItem(CartItem cartItem);
-        bool RemoveItem(string skuCode);
+        bool RemoveCartItem(CartItem cartItem);
     }
 }

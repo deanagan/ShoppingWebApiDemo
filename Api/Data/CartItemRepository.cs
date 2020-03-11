@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 using Api.Interfaces;
 using Api.Models;
@@ -16,17 +17,17 @@ namespace Api.Data
 
         public CartItem GetCartItem(int id)
         {
-            return new CartItem{Id = 1, ProductId = 1, Quantity = 1};
+            return cartItems.Where(ci => ci.Id == id).DefaultIfEmpty(null).First();
         }
 
-        public bool RemoveItem(string skuCode)
+        public bool RemoveCartItem(CartItem cartItem)
         {
-            return false;
+            return cartItems.Remove(cartItem);
         }
 
         public void AddCartItem(CartItem cartItem)
         {
-
+            cartItems.Add(cartItem);
         }
     }
 }
