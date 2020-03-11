@@ -71,5 +71,19 @@ namespace Test.Controller
             // Assert
             Mock.Get(_cartItemRepository).Verify(pr => pr.GetCartItems(), Times.Once);
         }
+
+        [Fact]
+        public void AddCartItemInvokedWithRightProduct_WhenAddingToCart()
+        {
+            // Arrange
+            _cartService = new CartService(_productRepository, _cartItemRepository);
+            
+            // Act
+            _cartService.AddProduct("PROD_002");
+
+            // Assert
+            Mock.Get(_cartItemRepository).Verify(cir => 
+                cir.AddCartItem(It.Is<CartItem>(ci => ci.ProductId == 102)), Times.Once);
+        }
     }
 }
