@@ -16,18 +16,17 @@ namespace Test.Controller
     {
 
         [Fact]
-        public void AddCartItemRetusnOK_WhenAddingCartItem()
+        public void AddCartItemRetusOK_WhenAddingCartItem()
         {
             // Arrange
             var cartService = Mock.Of<ICartService>();
             var controller = new CartController(cartService);
 
             // Act
-            var response = controller.AddProduct("PROD_001") as ObjectResult;
+            var response = controller.AddProduct("PROD_001");
 
             // Assert
-            response.Should().NotBeNull();
-            response.StatusCode.Should().Be(StatusCodes.Status200OK);
+            response.Should().NotBeNull().And.BeOfType<OkResult>();
         }
 
      
