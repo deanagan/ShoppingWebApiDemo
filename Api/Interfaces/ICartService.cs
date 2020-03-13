@@ -5,8 +5,8 @@ namespace Api.Interfaces
 {
     public interface ICartService
     {
-        void AddProduct(string skuCode);
-        bool RemoveProduct(string skuCode);
+        void AddProduct(Product product);
+        bool RemoveProduct(int productId);
         List<CartItem> GetCartItems();
     }
 }
