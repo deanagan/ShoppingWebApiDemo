@@ -45,6 +45,22 @@ namespace Test.Controller
             // Because delete is an idempotent command, multiple deletions should always be 200/204.
             response.Should().NotBeNull().And.BeOfType<OkResult>();
         }
-     
+
+        [Fact]
+        public void GetCartItemsRepoInvokedOnce_WhenGettingCartItemsViaController()
+        {
+            // Arrange
+            var cartService = Mock.Of<ICartService>();
+            var controller = new CartController(cartService);
+            Mock.Get(cartService).Setup(cs => cs.GetCartItems()).Returns(new List<CartItem>());
+
+            // Act
+            var response = controller.GetCartItems();
+
+            // Assert
+            // Because delete is an idempotent command, multiple deletions should always be 200/204.
+            response.Should().NotBeNull().And.BeOfType<OkObjectResult>();
+            Mock.Get(cartService).Verify(cs => cs.GetCartItems(), Times.Once);
+        }
     }
 }
