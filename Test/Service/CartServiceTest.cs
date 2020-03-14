@@ -47,16 +47,20 @@ namespace Test.Controller
         }
 
         [Fact]
-        public void AddProductInvokesProductRepoGetProducts_WhenAddingToCart()
+        public void ProductIdMatched_WhenAddingToCart()
         {
             // Arrange
             _cartService = new CartService(_productRepository, _cartItemRepository);
+            int expectedId = 0;
+            Mock.Get(_cartItemRepository)
+                .Setup(ci => ci.AddCartItem(It.IsAny<CartItem>()))
+                .Callback<CartItem>((ci) => expectedId = ci.ProductId);
             
             // Act
-            _cartService.AddProduct("PROD_001");
+            _cartService.AddProduct(_products.First());
 
             // Assert
-            Mock.Get(_productRepository).Verify(pr => pr.GetProducts(), Times.Once);
+            expectedId.Should().Be(_products.First().Id);
         }
 
         [Fact]
@@ -79,11 +83,11 @@ namespace Test.Controller
             _cartService = new CartService(_productRepository, _cartItemRepository);
             
             // Act
-            _cartService.AddProduct("PROD_002");
+            _cartService.AddProduct(_products.First());
 
             // Assert
             Mock.Get(_cartItemRepository).Verify(cir => 
-                cir.AddCartItem(It.Is<CartItem>(ci => ci.ProductId == 102)), Times.Once);
+                cir.AddCartItem(It.Is<CartItem>(ci => ci.ProductId == _products.First().Id)), Times.Once);
         }
 
 
@@ -99,8 +103,8 @@ namespace Test.Controller
                                          .Returns(cartItems);
             
             // Act
-            _cartService.AddProduct("PROD_001");
-            _cartService.AddProduct("PROD_002");
+            _cartService.AddProduct(_products.First());
+            _cartService.AddProduct(_products.Last());
 
             // Assert
             _cartService.GetCartItems().Count.Should().Be(2);
@@ -121,9 +125,8 @@ namespace Test.Controller
                                          .Returns(dummyCartItems);
             
             // Act
-            _cartService.AddProduct("PROD_001");
-            _cartService.AddProduct("PROD_002");
-            _cartService.RemoveProduct("PROD_001");
+            _products.ForEach(p => _cartService.AddProduct(p));
+            _cartService.RemoveProduct(_products.First().Id);
             var cartItems = _cartService.GetCartItems();
 
             // Assert
