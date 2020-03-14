@@ -17,29 +17,21 @@ namespace Api.Services
             this.cartItemRepository = cartItemRepository;
         }
 
-        private Product GetProductUsingSkuCode(string skuCode)
+        public void AddProduct(Product product)
         {
-            return productRepository.GetProducts()
-                                    .Where(product => product.SkuCode == skuCode)                                        
-                                    .DefaultIfEmpty(null)
-                                    .First();
-        }
-        public void AddProduct(string skuCode)
-        {
-            var product = GetProductUsingSkuCode(skuCode);
-
             if (product != null)
             {
                 var cartItem = new CartItem { ProductId = product.Id, Quantity = 1 };
                 cartItemRepository.AddCartItem(cartItem);
-            }
-
-            
+            }  
         }
 
-        public bool RemoveProduct(string skuCode)
+        public bool RemoveProduct(int productId)
         {
-            var product = GetProductUsingSkuCode(skuCode);
+            var product = productRepository.GetProducts()
+                                    .Where(product => product.Id == productId)                                        
+                                    .DefaultIfEmpty(null)
+                                    .First();
             if (product == null)
             {
                 return false;
@@ -53,6 +45,5 @@ namespace Api.Services
         {
             return cartItemRepository.GetCartItems();
         }
-
     }
 }

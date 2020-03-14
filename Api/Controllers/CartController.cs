@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 
 using Api.Interfaces;
+using Api.Models;
 
 namespace Api.Controllers
 {
@@ -22,16 +23,16 @@ namespace Api.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult AddProduct([FromBody]string skuCode)
+        public IActionResult AddProduct([FromBody]Product product)
         {
-            cartService.AddProduct(skuCode);
+            cartService.AddProduct(product);
             return Ok();
         }
 
         [HttpDelete("[action]")]
-        public IActionResult RemoveProduct(string skuCode)
+        public IActionResult RemoveProduct(int id)
         {
-            cartService.RemoveProduct(skuCode);
+            cartService.RemoveProduct(id);
             return Ok();
         }
 
