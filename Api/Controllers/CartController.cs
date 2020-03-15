@@ -23,16 +23,16 @@ namespace Api.Controllers
         }
 
         [HttpPost("[action]")]
-        public IActionResult AddProduct([FromBody]Product product)
+        public IActionResult AddItem([FromBody]CartItem cartItem)
         {
-            cartService.AddProduct(product);
+            cartService.AddItem(cartItem);
             return Ok();
         }
 
         [HttpDelete("[action]")]
-        public IActionResult RemoveProduct(int id)
+        public IActionResult RemoveItem(int id)
         {
-            cartService.RemoveProduct(id);
+            cartService.RemoveItem(id);
             return Ok();
         }
 
