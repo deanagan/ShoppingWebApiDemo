@@ -33,7 +33,7 @@ namespace Api
 
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IProductRepository, ProductRepository>();
-            services.AddTransient<ICartItemRepository, CartItemRepository>();
+            services.AddSingleton<ICartItemRepository, CartItemRepository>();
             services.AddTransient<ICartService, CartService>();
         }
 
