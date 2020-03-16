@@ -52,13 +52,13 @@ namespace Test.Controller
         public void GetCartItemsInvokesCartItemRepo_WhenGettingCartItems()
         {
             // Arrange
-            //_cartService = new CartService(_productRepository, _cartItemRepository);
+            _cartService = new CartService(_cartItemRepository);
 
             // Act
-            //var items = _cartService.GetCartItems();
+            var items = _cartService.GetCartItems();
 
             // Assert
-            //Mock.Get(_cartItemRepository).Verify(pr => pr.GetCartItems(), Times.Once);
+            Mock.Get(_cartItemRepository).Verify(pr => pr.GetCartItems(), Times.Once);
         }
 
         [Fact]
