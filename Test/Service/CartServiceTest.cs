@@ -17,6 +17,7 @@ namespace Test.Controller
     public class CartServiceTest
     {
         private ICartService _cartService;
+        private CartItem _cartItem;
         private readonly ICartItemRepository _cartItemRepository;
 
         public CartServiceTest()
@@ -28,23 +29,23 @@ namespace Test.Controller
                                                             ci.Quantity == 1)
                     
             );
+
+            _cartItem = Mock.Of<CartItem>(ci => ci.Id == 102 && 
+                                          ci.ProductId == 2 && 
+                                          ci.Quantity == 1);
         }
 
         [Fact]
-        public void ProductIdMatched_WhenAddingToCart()
+        public void CartItemRepoAddCartItemInvoked_WhenAddingToCart()
         {
             // Arrange
-            // _cartService = new CartService(_cartItemRepository);
-            // int expectedId = 0;
-            // Mock.Get(_cartItemRepository)
-            //     .Setup(ci => ci.AddCartItem(It.IsAny<CartItem>()))
-            //     .Callback<CartItem>((ci) => expectedId = ci.ProductId);
+            _cartService = new CartService(_cartItemRepository);
             
             // Act
-            //_cartService.AddCartItem(_products.First());
+            _cartService.AddItem(_cartItem);
 
             // Assert
-            //expectedId.Should().Be(_products.First().Id);
+            Mock.Get(_cartItemRepository).Verify(cir => cir.AddCartItem(_cartItem), Times.Once);
         }
 
         [Fact]
