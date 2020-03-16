@@ -10,7 +10,7 @@ namespace Api.Services
     {
         private ICartItemRepository cartItemRepository;
 
-        public CartService(IProductRepository productRepository, ICartItemRepository cartItemRepository)
+        public CartService(ICartItemRepository cartItemRepository)
         {
             this.cartItemRepository = cartItemRepository;
         }
