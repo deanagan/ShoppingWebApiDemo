@@ -62,17 +62,17 @@ namespace Test.Controller
         }
 
         [Fact]
-        public void AddCartItemInvokedWithRightProduct_WhenAddingToCart()
+        public void AddCartItemInvokedWithMatchingCartItem_WhenAddingToCart()
         {
             // Arrange
-            //_cartService = new CartService(_productRepository, _cartItemRepository);
+            _cartService = new CartService(_cartItemRepository);
             
             // Act
-            //_cartService.AddProduct(_products.First());
+            _cartService.AddItem(_cartItem);
 
             // Assert
-            // Mock.Get(_cartItemRepository).Verify(cir => 
-            //     cir.AddCartItem(It.Is<CartItem>(ci => ci.ProductId == _products.First().Id)), Times.Once);
+            Mock.Get(_cartItemRepository).Verify(cir => 
+                cir.AddCartItem(It.Is<CartItem>(ci => ci.ProductId == _cartItem.ProductId)), Times.Once);
         }
 
 
