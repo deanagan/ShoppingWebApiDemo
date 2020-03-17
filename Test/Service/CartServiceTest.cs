@@ -99,9 +99,10 @@ namespace Test.Controller
         }
 
         [Fact]
-        public void YieldsCorrectCount_WhenAddingMultipleProductsThenRemovingOneFromCart()
+        public void YieldsCorrectRemainingItem_WhenAddingMultipleProductsThenRemovingOneFromCart()
         {
             // Arrange
+            var cartItemsAdded = new List<CartItem>();
             _cartService = new CartService(_cartItemRepository);
             var cartItem1 = Mock.Of<CartItem>(ci => ci.Id == 1 && 
                                               ci.Quantity == 1 && 
@@ -109,15 +110,23 @@ namespace Test.Controller
             var cartItem2 = Mock.Of<CartItem>(ci => ci.Id == 2 && 
                                               ci.Quantity == 1 && 
                                               ci.ProductId == 102);
+
+            Mock.Get(_cartItemRepository).Setup(cir => cir.AddCartItem(It.IsAny<CartItem>()))
+                                         .Callback<CartItem>(ci => cartItemsAdded.Add(ci));
+            Mock.Get(_cartItemRepository).Setup(cir => cir.RemoveCartItem(It.IsAny<CartItem>()))
+                                         .Callback<CartItem>(ci => cartItemsAdded.Remove(ci));
+            Mock.Get(_cartItemRepository).Setup(cir => cir.GetCartItems())
+                                         .Returns(cartItemsAdded);
             
             // Act
             _cartService.AddItem(cartItem1);
             _cartService.AddItem(cartItem2);
-            _cartService.RemoveItem(2);
+            _cartService.RemoveItem(cartItem2.Id);
 
             // Assert
-            var items = _cartService.GetCartItems();
-            items.Count.Should().Be(1).And.Equals(cartItem1);
+            Mock.Get(_cartItemRepository).Verify(cir => cir.AddCartItem(cartItem1), Times.Once());
+            Mock.Get(_cartItemRepository).Verify(cir => cir.AddCartItem(cartItem2), Times.Once());
+            cartItemsAdded.Should().ContainSingle(ci => ci == cartItem1);
         }
         
     }
