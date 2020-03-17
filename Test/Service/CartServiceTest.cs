@@ -80,6 +80,7 @@ namespace Test.Controller
         public void YieldsCorrectCount_WhenAddMultipleProductsToCart()
         {
             // Arrange
+            var cartItemsAdded = new List<CartItem>();
             _cartService = new CartService(_cartItemRepository);
             var cartItem1 = Mock.Of<CartItem>(ci => ci.Id == 1 && 
                                               ci.Quantity == 1 && 
@@ -93,9 +94,31 @@ namespace Test.Controller
             _cartService.AddItem(cartItem2);
 
             // Assert
-            _cartService.GetCartItems().Count.Should().Be(2);
+            Mock.Get(_cartItemRepository).Verify(cir => cir.AddCartItem(cartItem1), Times.Once());
+            Mock.Get(_cartItemRepository).Verify(cir => cir.AddCartItem(cartItem2), Times.Once());
         }
 
+        [Fact]
+        public void YieldsCorrectCount_WhenAddingMultipleProductsThenRemovingOneFromCart()
+        {
+            // Arrange
+            _cartService = new CartService(_cartItemRepository);
+            var cartItem1 = Mock.Of<CartItem>(ci => ci.Id == 1 && 
+                                              ci.Quantity == 1 && 
+                                              ci.ProductId == 101);
+            var cartItem2 = Mock.Of<CartItem>(ci => ci.Id == 2 && 
+                                              ci.Quantity == 1 && 
+                                              ci.ProductId == 102);
+            
+            // Act
+            _cartService.AddItem(cartItem1);
+            _cartService.AddItem(cartItem2);
+            _cartService.RemoveItem(2);
+
+            // Assert
+            var items = _cartService.GetCartItems();
+            items.Count.Should().Be(1).And.Equals(cartItem1);
+        }
         
     }
 }
