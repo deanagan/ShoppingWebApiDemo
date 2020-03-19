@@ -13,33 +13,33 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CartController : ControllerBase
+    public class CartItemController : ControllerBase
     {
-        private readonly ICartService cartService;
+        private readonly ICartItemService cartItemService;
 
-        public CartController(ICartService cartService)
+        public CartItemController(ICartItemService cartItemService)
         {
-            this.cartService = cartService;
+            this.cartItemService = cartItemService;
         }
 
         [HttpPost("[action]")]
-        public IActionResult AddItem([FromBody]CartItem cartItem)
+        public IActionResult Add([FromBody]CartItem cartItem)
         {
-            cartService.AddItem(cartItem);
+            cartItemService.Add(cartItem);
             return Ok();
         }
 
         [HttpDelete("[action]")]
-        public IActionResult RemoveItem(int id)
+        public IActionResult Remove(int id)
         {
-            cartService.RemoveItem(id);
+            cartItemService.Remove(id);
             return Ok();
         }
 
         [HttpGet("[action]")]
-        public IActionResult GetCartItems()
+        public IActionResult GetAll()
         {
-            return Ok(cartService.GetCartItems());
+            return Ok(cartItemService.GetAll());
         }
 
         
