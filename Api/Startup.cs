@@ -34,7 +34,7 @@ namespace Api
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddSingleton<ICartItemRepository, CartItemRepository>();
-            services.AddTransient<ICartService, CartService>();
+            services.AddTransient<ICartItemService, CartItemService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
