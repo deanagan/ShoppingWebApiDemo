@@ -14,13 +14,13 @@ using Api.Interfaces;
 
 namespace Test.Controller
 {
-    public class CartServiceTest
+    public class CartItemServiceTest
     {
-        private ICartService _cartService;
+        private ICartItemService _cartService;
         private CartItem _cartItem;
         private readonly ICartItemRepository _cartItemRepository;
 
-        public CartServiceTest()
+        public CartItemServiceTest()
         {
             _cartItemRepository = Mock.Of<ICartItemRepository>(
                 cir =>
@@ -39,10 +39,10 @@ namespace Test.Controller
         public void CartItemRepoAddCartItemInvoked_WhenAddingToCart()
         {
             // Arrange
-            _cartService = new CartService(_cartItemRepository);
+            _cartService = new CartItemService(_cartItemRepository);
             
             // Act
-            _cartService.AddItem(_cartItem);
+            _cartService.Add(_cartItem);
 
             // Assert
             Mock.Get(_cartItemRepository).Verify(cir => cir.AddCartItem(_cartItem), Times.Once);
@@ -52,10 +52,10 @@ namespace Test.Controller
         public void GetCartItemsInvokesCartItemRepo_WhenGettingCartItems()
         {
             // Arrange
-            _cartService = new CartService(_cartItemRepository);
+            _cartService = new CartItemService(_cartItemRepository);
 
             // Act
-            var items = _cartService.GetCartItems();
+            var items = _cartService.GetAll();
 
             // Assert
             Mock.Get(_cartItemRepository).Verify(pr => pr.GetCartItems(), Times.Once);
@@ -65,10 +65,10 @@ namespace Test.Controller
         public void AddCartItemInvokedWithMatchingCartItem_WhenAddingToCart()
         {
             // Arrange
-            _cartService = new CartService(_cartItemRepository);
+            _cartService = new CartItemService(_cartItemRepository);
             
             // Act
-            _cartService.AddItem(_cartItem);
+            _cartService.Add(_cartItem);
 
             // Assert
             Mock.Get(_cartItemRepository).Verify(cir => 
@@ -81,7 +81,7 @@ namespace Test.Controller
         {
             // Arrange
             var cartItemsAdded = new List<CartItem>();
-            _cartService = new CartService(_cartItemRepository);
+            _cartService = new CartItemService(_cartItemRepository);
             var cartItem1 = Mock.Of<CartItem>(ci => ci.Id == 1 && 
                                               ci.Quantity == 1 && 
                                               ci.ProductId == 101);
@@ -90,8 +90,8 @@ namespace Test.Controller
                                               ci.ProductId == 102);
             
             // Act
-            _cartService.AddItem(cartItem1);
-            _cartService.AddItem(cartItem2);
+            _cartService.Add(cartItem1);
+            _cartService.Add(cartItem2);
 
             // Assert
             Mock.Get(_cartItemRepository).Verify(cir => cir.AddCartItem(cartItem1), Times.Once());
@@ -103,7 +103,7 @@ namespace Test.Controller
         {
             // Arrange
             var cartItemsAdded = new List<CartItem>();
-            _cartService = new CartService(_cartItemRepository);
+            _cartService = new CartItemService(_cartItemRepository);
             var cartItem1 = Mock.Of<CartItem>(ci => ci.Id == 1 && 
                                               ci.Quantity == 1 && 
                                               ci.ProductId == 101);
@@ -119,9 +119,9 @@ namespace Test.Controller
                                          .Returns(cartItemsAdded);
             
             // Act
-            _cartService.AddItem(cartItem1);
-            _cartService.AddItem(cartItem2);
-            _cartService.RemoveItem(cartItem2.Id);
+            _cartService.Add(cartItem1);
+            _cartService.Add(cartItem2);
+            _cartService.Remove(cartItem2.Id);
 
             // Assert
             Mock.Get(_cartItemRepository).Verify(cir => cir.AddCartItem(cartItem1), Times.Once());
