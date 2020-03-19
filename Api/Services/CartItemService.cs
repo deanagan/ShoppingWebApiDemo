@@ -6,16 +6,16 @@ using Api.Interfaces;
 
 namespace Api.Services
 {
-    public class CartService : ICartService
+    public class CartItemService : ICartItemService
     {
         private ICartItemRepository cartItemRepository;
 
-        public CartService(ICartItemRepository cartItemRepository)
+        public CartItemService(ICartItemRepository cartItemRepository)
         {
             this.cartItemRepository = cartItemRepository;
         }
 
-        public void AddItem(CartItem cartItem)
+        public void Add(CartItem cartItem)
         {
             if (cartItem != null)
             {
@@ -23,7 +23,7 @@ namespace Api.Services
             }
         }
         
-        public bool RemoveItem(int cartItemId)
+        public bool Remove(int cartItemId)
         {
             var cartItems = cartItemRepository.GetCartItems();
             var cartItemToRemove = cartItems.Where(cartItem => cartItem.Id == cartItemId)
@@ -33,7 +33,7 @@ namespace Api.Services
             return cartItemRepository.RemoveCartItem(cartItemToRemove);
         }
 
-        public List<CartItem> GetCartItems()
+        public List<CartItem> GetAll()
         {
             return cartItemRepository.GetCartItems();
         }
