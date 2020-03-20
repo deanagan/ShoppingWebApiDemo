@@ -8,7 +8,6 @@ namespace Api.Models
         [Key]
         public int Id { get; }
         public List<int> CartItemIds { get; }
-
         public PriceRule PriceRule { get; set; }
     }
 }
